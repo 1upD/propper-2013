@@ -86,7 +86,7 @@ $Project "tier1"
 
 $Project "vbsp"
 {
-	"utils\vbsp\vbsp.vpc" [$WIN32]
+	"utils\propper\vbsp.vpc" [$WIN32]
 }
 
 $Project "vgui_controls"

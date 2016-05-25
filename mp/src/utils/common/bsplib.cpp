@@ -4550,6 +4550,7 @@ bool CompressGameLump( dheader_t *pInBSPHeader, dheader_t *pOutBSPHeader, CUtlBu
 
 	return true;
 }
+#ifdef ZIP_SUPPORT_LZMA_ENCODE
 
 //-----------------------------------------------------------------------------
 // Compress callback for RepackBSP
@@ -4576,7 +4577,7 @@ bool RepackBSPCallback_LZMA( CUtlBuffer &inputBuffer, CUtlBuffer &outputBuffer )
 
 	return false;
 }
-
+#endif
 
 bool RepackBSP( CUtlBuffer &inputBuffer, CUtlBuffer &outputBuffer, CompressFunc_t pCompressFunc, IZip::eCompressionType packfileCompression )
 {
@@ -5243,3 +5244,17 @@ bool GetBSPDependants( const char *pBSPFilename, CUtlVector< CUtlString > *pList
 	return true;
 }
 
+//tuxxi
+
+// There's a version of this in host.cpp!!!  Make sure that they match.
+void GetPlatformMapPath(const char *pMapPath, char *pPlatformMapPath, int dxlevel, int maxLength)
+{
+    Q_StripExtension(pMapPath, pPlatformMapPath, maxLength);
+
+    //	if( dxlevel <= 60 )
+    //	{
+    //		Q_strncat( pPlatformMapPath, "_dx60", maxLength, COPY_ALL_CHARACTERS );
+    //	}
+
+    Q_strncat(pPlatformMapPath, ".bsp", maxLength, COPY_ALL_CHARACTERS);
+}

@@ -403,5 +403,6 @@ inline const char* TexInfo_TexName( int iTexInfo )
 	return TexDataStringTable_GetString( dtexdata[texinfo[iTexInfo].texdata].nameStringTableID );
 }
 
+void GetPlatformMapPath(const char *pMapPath, char *pPlatformMapPath, int dxlevel, int maxLength);
 
 #endif // BSPLIB_H
