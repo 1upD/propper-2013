@@ -1114,12 +1114,12 @@ bool MaterialUsed(char* PathIn){
 	//Adding to the head of the list is easier.
 	//p_tex now refers to the old head entry
 	p_tex = smd_textures;
-	smd_textures = (smd_texture_t*)malloc(sizeof(smd_texture_t));
+	smd_textures = (smd_texture_t*)MemAlloc_Alloc(sizeof(smd_texture_t));
 	assert(p_tex);
 	smd_textures->next = p_tex;
-	smd_textures->texpath = (char*)malloc( strlen(PathIn) + 1);
+    smd_textures->texpath = (char*)MemAlloc_Alloc(strlen(PathIn) + 1);
 	V_strncpy(smd_textures->texpath, PathIn, strlen(PathIn) + 1);
-	smd_textures->texname = (char*)malloc( 512);
+    smd_textures->texname = (char*)MemAlloc_Alloc(512);
 	V_FileBase(PathIn, smd_textures->texname, 512);
 	return false;
 }
@@ -1960,7 +1960,7 @@ int RunVBSP( int argc, char **argv )
 
 	LoadCmdLineFromFile( argc, argv, mapbase, "vbsp" );
 
-	Msg( "Propper 0.31 by Carl Foust. Adapted from vbsp.exe by Valve Software. (%s)\n", __DATE__ );
+	Msg( "Propper 0.32. Originally written by Carl Foust, fixed and compiled for SDK Base 2013 by tuxxi. Adapted from vbsp.exe by Valve Software. (%s)\n", __DATE__ );
 
 	for (i=1 ; i<argc ; i++)
 	{
