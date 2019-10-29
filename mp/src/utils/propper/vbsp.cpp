@@ -92,6 +92,7 @@ bool studioCompile = true;
 bool fixMaterials = true;
 bool mat_nonormal = false;
 int smdmaterials = 0;
+bool useMapbase = false; // 1upD
 
 //This gets initialized twice. Hrm...
 char targetPath[1024];
@@ -1212,7 +1213,7 @@ int fixupMaterial(const char* pMatName, const char* qc_cdmaterials, bool count){
 			char Line[1024];
 			char LineIn[1024];
 			buffer.GetLine( &LineIn[0], 1024 );
-			V_StrSubst( &LineIn[0], subShaderName, "VertexLitGeneric", &Line[0], 1024, false );
+			V_StrSubst( &LineIn[0], subShaderName, useMapbase ? "SDK_VertexLitGeneric" : "VertexLitGeneric", &Line[0], 1024, false );
 			if (addModel && strstr(Line, "$basetexture")){
 				g_pFullFileSystem->Write( "\t$model 1 \r", 11, matfile2 ); //just put $model in before basetexture, since I know it will be there.
 				addModel = false;
@@ -1978,6 +1979,11 @@ int RunVBSP( int argc, char **argv )
 			Msg("No Materials--Propper will not convert any materials.\n");
 			fixMaterials = false;
 		}
+		else if (!stricmp( argv[i], "-mapbase" ))
+		{
+			Msg( "Mapbase--Propper will convert materials to the Mapbase version of the VertexLit shader.\n" );
+			useMapbase = true;
+		}
 		else if ( !stricmp(argv[i], "-obj") )
 		{
 			Msg("OBJ export enabled.\n");
@@ -2243,6 +2249,7 @@ int RunVBSP( int argc, char **argv )
 			"  -game <directory>     : Same as -vproject.\n"
 			"  -logging				 : enable .log file.\n"
 			"  -nomaterials			 : Makes propper skip conversion of material files.\n"
+			"  -mapbase				 : Makes propper use Mapbase shaders when converting materials.\n"
 			"  -nocompile			 : Makes propper skip running studiomdl to compile props.\n"
 			"\n" );
 
