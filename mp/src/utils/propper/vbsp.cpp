@@ -1213,7 +1213,16 @@ int fixupMaterial(const char* pMatName, const char* qc_cdmaterials, bool count){
 			char Line[1024];
 			char LineIn[1024];
 			buffer.GetLine( &LineIn[0], 1024 );
-			V_StrSubst( &LineIn[0], subShaderName, useMapbase ? "SDK_VertexLitGeneric" : "VertexLitGeneric", &Line[0], 1024, false );
+			// If are not in Mapbase mode or the line already contains the "SDK_" prefix, do not fix up the material with the "SDK_" prefix
+			if ( !useMapbase || strstr( &LineIn[0], "SDK_") )
+			{
+				V_StrSubst( &LineIn[0], subShaderName, "VertexLitGeneric", &Line[0], 1024, false );
+			}
+			else
+			{
+				V_StrSubst( &LineIn[0], subShaderName, "SDK_VertexLitGeneric", &Line[0], 1024, false );
+			}
+
 			if (addModel && strstr(Line, "$basetexture")){
 				g_pFullFileSystem->Write( "\t$model 1 \r", 11, matfile2 ); //just put $model in before basetexture, since I know it will be there.
 				addModel = false;
